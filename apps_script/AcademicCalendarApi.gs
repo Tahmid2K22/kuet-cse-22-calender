@@ -112,17 +112,23 @@ function doPost() {
  * is reached. CacheService is shared by the whole deployment.
  */
 function allowRequest_() {
-  const cache = CacheService.getScriptCache();
-  const window = Math.floor(
-    Date.now() / (RATE_LIMIT_WINDOW_SECONDS * 1000)
-  );
-  const key = 'rate:' + window;
-  const used = Number(cache.get(key) || 0);
+  try {
+    const cache = CacheService.getScriptCache();
+    const window = Math.floor(
+      Date.now() / (RATE_LIMIT_WINDOW_SECONDS * 1000)
+    );
+    const key = 'rate:' + window;
+    const used = Number(cache.get(key) || 0);
 
-  if (used >= RATE_LIMIT_MAX_REQUESTS) return false;
+    if (used >= RATE_LIMIT_MAX_REQUESTS) return false;
 
-  cache.put(key, String(used + 1), RATE_LIMIT_WINDOW_SECONDS + 5);
-  return true;
+    cache.put(key, String(used + 1), RATE_LIMIT_WINDOW_SECONDS + 5);
+    return true;
+  } catch (error) {
+    // If the cache is unavailable, prefer serving the calendar over failing.
+    console.error('Rate limiter unavailable: ' + error);
+    return true;
+  }
 }
 
 /**
