@@ -1,0 +1,36 @@
+{
+    "name": "KUET CSE 22 Calender",
+    "short_name": "CSE 22",
+    "start_url": ".",
+    "scope": ".",
+    "display": "standalone",
+    "background_color": "#F6FBF8",
+    "theme_color": "#146B45",
+    "description": "KUET CSE 22 academic calendar backed by Google Sheets.",
+    "orientation": "any",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}

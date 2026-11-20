@@ -1,0 +1,4 @@
+# Keep the calendar out of search engines. The site is meant to be shared by
+# link only.
+User-agent: *
+Disallow: /
