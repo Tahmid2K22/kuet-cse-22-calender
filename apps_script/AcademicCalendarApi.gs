@@ -436,6 +436,43 @@ function publicErrorMessage_(error) {
 }
 
 /**
+ * Run this from the Apps Script editor (Run > checkSetup) when the Web App
+ * reports "not configured". It prints which script properties exist and
+ * whether the spreadsheet opens, without printing the full sheet ID.
+ */
+function checkSetup() {
+  const properties = PropertiesService.getScriptProperties().getProperties();
+  const keys = Object.keys(properties);
+
+  Logger.log('Script property keys: ' + (keys.length ? keys.join(', ') : '(none)'));
+  Logger.log(
+    'SPREADSHEET_ID: ' +
+      (properties[SPREADSHEET_ID_PROPERTY]
+        ? 'set (' + properties[SPREADSHEET_ID_PROPERTY].length + ' characters)'
+        : 'MISSING')
+  );
+
+  const id = properties[SPREADSHEET_ID_PROPERTY];
+  if (!id) return;
+
+  try {
+    const spreadsheet = SpreadsheetApp.openById(id.trim());
+    Logger.log('Spreadsheet: ' + spreadsheet.getName());
+    Logger.log(
+      'Sheets: ' +
+        spreadsheet
+          .getSheets()
+          .map(function (sheet) {
+            return sheet.getName();
+          })
+          .join(', ')
+    );
+  } catch (error) {
+    Logger.log('openById failed: ' + error);
+  }
+}
+
+/**
  * Run this from the Apps Script editor (Run > testReadEvents) to inspect the
  * JSON payload in the execution log before deploying.
  */
